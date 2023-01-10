@@ -43,17 +43,17 @@ componentDidMount() {
       id: nanoid(),
     };
 
-    let isAdded = false;
+    let isAdd = false;
 
     contacts.map(contact => {
       if (contact.name === name.value) {
         alert(`${name.value} is already in contacts`);
-        return (isAdded = true);
+        return (isAdd = true);
       }
-      return isAdded;
+      return isAdd;
     });
  
-    if (!isAdded) {
+    if (!isAdd) {
       this.setState(prevState => ({
         contacts: [addedContact, ...prevState.contacts],
       }));
