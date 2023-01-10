@@ -11,64 +11,19 @@ export class ContactForm extends Component {
 static propTypes = {
     onSubmit: PropTypes.func.isRequired,
   };
+
   
-  handleInputChange = event => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: [value],
-    });
-  };
-
-  // handleSubmit = event => {
-  //   event.preventDefault();
-  //   this.props.onSubmit(this.state);
-
-  //   this.setState({
-  //     name: '',
-  //     number: '',
-  //   });
-    
-  // };
-
-  handleSubmit = event => {
-    event.preventDefault();
-    this.props.onSubmit(this.state);
-
-    this.setState({
-      name: '',
-      number: '',
-    });
-    const { contacts } = this.props;
-    const {
-      elements: { number, name },
-    } = event.target;
-
-    contacts.map(contact => {
-      if (contact.name === name.value) {
-        this.setState({
-          name: name.value,
-          number: number.value,
-        });
-      }
-
-      return this.state;
-    });
-  };
-
   render() {
-    const { name, number } = this.state;
+    const { addContact } = this.props;
 
     return (
       <>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={addContact}>
           <Label>
             Name
             <Input
               type="text"
               name="name"
-              value={name}
-              onChange={this.handleInputChange}
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
               required
@@ -81,8 +36,6 @@ static propTypes = {
             <Input
               type="tel"
               name="number"
-              value={number}
-              onChange={this.handleInputChange}
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required

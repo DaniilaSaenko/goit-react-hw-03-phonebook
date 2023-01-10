@@ -29,26 +29,38 @@ componentDidMount() {
     }
   }
 
-  addContacts = data => {
-    const { name, number } = data;
+  addContact = data => {
+    data.preventDefault();
+    const { contacts } = this.state;
 
-    const contact = {
+    const {
+      elements: { name, number },
+    } = data.currentTarget;
+
+    let addedContact = {
+      name: name.value,
+      number: number.value,
       id: nanoid(),
-      name: name[0],
-      number: number[0],
     };
 
-    const contactsInclude = this.state.contacts.some(el => el.name === name[0]);
+    let isAdded = false;
 
-    if (contactsInclude) {
-      alert(`${name} is already in contacts`);
-      return;
+    contacts.map(contact => {
+      if (contact.name === name.value) {
+        alert(`${name.value} is already in contacts`);
+        return (isAdded = true);
+      }
+      return isAdded;
+    });
+ 
+    if (!isAdded) {
+      this.setState(prevState => ({
+        contacts: [addedContact, ...prevState.contacts],
+      }));
+      data.currentTarget.reset();
     }
-
-    this.setState(({ contacts }) => ({
-      contacts: [...contacts, contact],
-    }));
   };
+
 
   deleteContact = contactId => {
     this.setState(prevState => ({
@@ -75,22 +87,18 @@ componentDidMount() {
 
   render() {
     const { contacts, filter } = this.state;
-    const visibleContacts = this.getVisibleContacts();
 
     return (
       <Box px={20} pt={10}>
         <h1>Phonebook</h1>
-        <ContactForm
-          onSubmit={this.addContacts}
-          contacts={this.state.contacts}
-        />
+        <ContactForm  addContact={this.addContact} />
 
         {contacts.length !== 0 && (
           <Box mt={20}>
             <h2>Contacts</h2>
             <Filter value={filter} onChange={this.changeFilter} />
             <ContactList
-              contacts={visibleContacts}
+              contacts={this.getVisibleContacts()}
               onDelete={this.deleteContact}
             />
           </Box>
