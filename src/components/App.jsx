@@ -56,8 +56,8 @@ componentDidMount() {
     }));
   };
 
-  changeFilter = evt => {
-    this.setState({ filter: evt.currentTarget.value });
+  changeFilter = event => {
+    this.setState({ filter: event.currentTarget.value });
   };
 
   getVisibleContacts = () => {

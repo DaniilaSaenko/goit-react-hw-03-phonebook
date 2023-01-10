@@ -19,16 +19,16 @@ static propTypes = {
     ).isRequired,
   };
   
-  handleInputChange = evt => {
-    const { name, value } = evt.target;
+  handleInputChange = event => {
+    const { name, value } = event.target;
 
     this.setState({
       [name]: [value],
     });
   };
 
-  handleSubmit = evt => {
-    evt.preventDefault();
+  handleSubmit = event => {
+    event.preventDefault();
     this.props.onSubmit(this.state);
 
     this.setState({
@@ -39,7 +39,7 @@ static propTypes = {
     const { contacts } = this.props;
     const {
       elements: { number, name },
-    } = evt.target;
+    } = event.target;
 
     contacts.map(contact => {
       if (contact.name === name.value) {
