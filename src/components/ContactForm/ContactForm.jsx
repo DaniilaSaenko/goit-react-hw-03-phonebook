@@ -10,13 +10,6 @@ export class ContactForm extends Component {
 
 static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    contacts: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        number: PropTypes.string.isRequired,
-      }).isRequired
-    ).isRequired,
   };
   
   handleInputChange = event => {
@@ -27,6 +20,17 @@ static propTypes = {
     });
   };
 
+  // handleSubmit = event => {
+  //   event.preventDefault();
+  //   this.props.onSubmit(this.state);
+
+  //   this.setState({
+  //     name: '',
+  //     number: '',
+  //   });
+    
+  // };
+
   handleSubmit = event => {
     event.preventDefault();
     this.props.onSubmit(this.state);
@@ -35,7 +39,6 @@ static propTypes = {
       name: '',
       number: '',
     });
-
     const { contacts } = this.props;
     const {
       elements: { number, name },
@@ -44,6 +47,7 @@ static propTypes = {
     contacts.map(contact => {
       if (contact.name === name.value) {
         this.setState({
+          name: name.value,
           number: number.value,
         });
       }
@@ -68,6 +72,7 @@ static propTypes = {
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
               required
+              placeholder="Name"
             />
           </Label>
 
@@ -81,6 +86,7 @@ static propTypes = {
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required
+              placeholder="Number"
             />
           </Label>
 
